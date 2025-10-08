@@ -21,28 +21,50 @@ export const BoardView: React.FC<BoardViewProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const currentRowRef = useRef<HTMLDivElement>(null);
 
-  // 人生ゲーム風のS字型湾曲レイアウト配置
-  const arrangeCurvedLayout = () => {
+  // 折り返し明確な配置レイアウト（3-1-3-1-3...パターン）
+  const arrangeFoldLayout = () => {
     const rows: Cell[][] = [];
+    let cellIndex = 0;
 
-    // 30マスを3列10行に配置（S字型）
-    for (let i = 0; i < cells.length; i += 3) {
-      const row = cells.slice(i, i + 3);
-      const rowIndex = Math.floor(i / 3);
+    while (cellIndex < cells.length) {
+      const rowType = Math.floor(rows.length) % 4;
 
-      // 奇数行（1, 3, 5, 7, 9行目）は逆順でS字型を作る
-      if (rowIndex % 2 === 1) {
-        row.reverse();
+      if (rowType === 0 || rowType === 2) {
+        // 3マスの行（0, 2, 4, 6行目など）
+        const row = cells.slice(cellIndex, cellIndex + 3);
+        if (rowType === 2) {
+          // 逆方向（折り返し）
+          row.reverse();
+        }
+        rows.push(row);
+        cellIndex += 3;
+      } else {
+        // 1マスの行（1, 3, 5行目など）- 折り返しポイント
+        const row = cells.slice(cellIndex, cellIndex + 1);
+        rows.push(row);
+        cellIndex += 1;
       }
-
-      rows.push(row);
     }
 
     return rows;
   };
 
-  const rows = arrangeCurvedLayout();
-  const currentRow = Math.floor(currentIndex / 3);
+  const rows = arrangeFoldLayout();
+
+  // 現在のセルがどの行にあるかを計算
+  const getCurrentRow = () => {
+    let cellCount = 0;
+    for (let i = 0; i < rows.length; i++) {
+      const rowCellCount = rows[i].length;
+      if (currentIndex < cellCount + rowCellCount) {
+        return i;
+      }
+      cellCount += rowCellCount;
+    }
+    return rows.length - 1;
+  };
+
+  const currentRow = getCurrentRow();
 
   // 現在の行が表示範囲に入るように自動スクロール
   useEffect(() => {
@@ -64,15 +86,9 @@ export const BoardView: React.FC<BoardViewProps> = ({
     }
   }, [currentIndex]);
 
-  // セルのインデックスを取得（S字型配置を考慮）
-  const getCellIndex = (rowIndex: number, colIndex: number) => {
-    if (rowIndex % 2 === 0) {
-      // 偶数行：左から右へ進む
-      return rowIndex * 3 + colIndex;
-    } else {
-      // 奇数行：右から左へ進む（S字型）
-      return rowIndex * 3 + (2 - colIndex);
-    }
+  // セルのインデックスを取得（折り返し配置を考慮）
+  const getCellIndex = (cell: Cell) => {
+    return cells.findIndex(c => c.id === cell.id);
   };
 
   return (
@@ -140,10 +156,10 @@ export const BoardView: React.FC<BoardViewProps> = ({
               )}
 
               <div className="relative px-2">
-                {/* 3列のグリッド配置 */}
-                <div className="grid grid-cols-3 gap-2">
+                {/* 動的グリッド配置（3個または1個） */}
+                <div className={`grid gap-2 ${row.length === 3 ? 'grid-cols-3' : 'grid-cols-1 justify-items-center'}`}>
                   {row.map((cell, colIndex) => {
-                    const actualIndex = getCellIndex(rowIndex, colIndex);
+                    const actualIndex = getCellIndex(cell);
 
                     return (
                       <div
@@ -164,8 +180,8 @@ export const BoardView: React.FC<BoardViewProps> = ({
                           />
                         )}
 
-                        {/* 横の接続線 */}
-                        {colIndex < row.length - 1 && (
+                        {/* 横の接続線（3個の行のみ） */}
+                        {row.length === 3 && colIndex < row.length - 1 && (
                           <div className="absolute top-1/2 -right-1 w-2 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
                         )}
                       </div>

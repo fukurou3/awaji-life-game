@@ -6,6 +6,8 @@ import { DiceButton } from './components/DiceButton';
 import { BranchPicker } from './components/BranchPicker';
 import { StopModal } from './components/StopModal';
 import { ResultView } from './components/ResultView';
+import { DiceResultModal } from './components/DiceResultModal';
+import { GameIntroModal } from './components/GameIntroModal';
 
 export default function AwajiLifeGame() {
   const { texts, loading } = useStoryTexts();
@@ -25,6 +27,18 @@ export default function AwajiLifeGame() {
 
   const currentCell = computed.getCurrentCell();
   const visitedIndices = gameState.history.map(h => h.index);
+
+  // 導入画面表示中はゲームコンテンツを隠す
+  if (gameState.phase === 'intro') {
+    return (
+      <div className="min-h-screen w-full bg-gray-50">
+        <GameIntroModal
+          isOpen={true}
+          onStartGame={actions.startGame}
+        />
+      </div>
+    );
+  }
 
   // シェア機能
   const handleShare = async () => {
@@ -127,6 +141,13 @@ export default function AwajiLifeGame() {
           </>
         )}
       </main>
+
+      {/* サイコロ結果モーダル */}
+      <DiceResultModal
+        isOpen={gameState.phase === 'dice_result'}
+        diceResult={gameState.dice.lastRoll}
+        onClose={actions.closeDiceResult}
+      />
 
       {/* 停止モーダル */}
       <StopModal

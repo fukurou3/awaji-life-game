@@ -43,8 +43,10 @@ export interface HistoryItem {
 }
 
 export type GamePhase =
+  | 'intro'
   | 'idle'
   | 'rolling'
+  | 'dice_result'
   | 'moving'
   | 'branch'
   | 'modal'

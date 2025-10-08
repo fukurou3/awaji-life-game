@@ -9,7 +9,7 @@ interface UseGameStateOptions {
 
 export function useGameState({ storyMap }: UseGameStateOptions) {
   const [gameState, setGameState] = useState<GameState>(() => ({
-    phase: 'idle',
+    phase: 'intro',
     currentIndex: 0,
     route: 'none',
     rp: 0,
@@ -34,19 +34,38 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
       dice: { ...prev.dice, animating: true }
     }));
 
-    // アニメーション後に結果確定
+    // アニメーション後に結果確定・モーダル表示
     setTimeout(() => {
       const roll = Math.floor(Math.random() * 6) + 1;
       setGameState(prev => ({
         ...prev,
-        phase: 'moving',
+        phase: 'dice_result',
         dice: { lastRoll: roll, animating: false }
       }));
-
-      // 移動開始
-      startMovement(roll);
     }, 500);
   }, [gameState.phase]);
+
+  // ゲーム開始
+  const startGame = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      phase: 'idle'
+    }));
+  }, []);
+
+  // サイコロ結果モーダルを閉じて移動開始
+  const closeDiceResult = useCallback(() => {
+    const roll = gameState.dice.lastRoll;
+    if (!roll) return;
+
+    setGameState(prev => ({
+      ...prev,
+      phase: 'moving'
+    }));
+
+    // 移動開始
+    startMovement(roll);
+  }, [gameState.dice.lastRoll]);
 
   // 移動処理
   const startMovement = useCallback((steps: number) => {
@@ -165,7 +184,7 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
     }
 
     setGameState({
-      phase: 'idle',
+      phase: 'intro',
       currentIndex: 0,
       route: 'none',
       rp: 0,
@@ -187,7 +206,9 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
   return {
     gameState,
     actions: {
+      startGame,
       rollDice,
+      closeDiceResult,
       selectBranch,
       closeModal,
       resetGame
