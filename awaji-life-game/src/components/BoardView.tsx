@@ -91,11 +91,6 @@ export const BoardView: React.FC<BoardViewProps> = ({
 
   return (
     <div className={`w-full h-full flex flex-col ${className}`}>
-      {/* タイトル */}
-      <div className="mb-2 text-center flex-shrink-0">
-        <h3 className="text-lg font-bold text-gray-800">淡路人生ゲーム盤面</h3>
-        <p className="text-sm text-gray-600">全{cells.length}マス • 現在: {currentIndex + 1}マス目</p>
-      </div>
 
       {/* 盤面（縦スクロール） */}
       <div
@@ -103,7 +98,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
         className="flex-1 overflow-y-auto px-2"
         style={{ maxHeight: 'calc(100vh - 250px)', scrollbarWidth: 'thin' }}
       >
-        <div className="max-w-sm mx-auto pb-20">
+        <div className="max-w-sm mx-auto pb-40">
           {rows.map((row, rowIndex) => (
             <div
               key={rowIndex}

@@ -71,7 +71,7 @@ export default function AwajiLifeGame() {
     <div
       className="min-h-screen w-full text-gray-900 flex flex-col relative"
       style={{
-        backgroundImage: "url('/awaji-life-game/background.svg')",
+        backgroundImage: "url('/haikei.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -101,23 +101,6 @@ export default function AwajiLifeGame() {
           </div>
         </div>
 
-        {/* 進行状況 - ポップなデザイン */}
-        <div className="flex items-center justify-between text-sm bg-white/20 backdrop-blur rounded-lg px-3 py-2">
-          <div className="flex items-center gap-2">
-            <span className="text-yellow-200 font-bold">💰</span>
-            <span className="text-white font-bold">RP: </span>
-            <span className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full font-black text-xs">
-              {gameState.rp}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-green-200 font-bold">🏁</span>
-            <span className="text-white font-bold">
-              {gameState.currentIndex + 1} / {gameState.board.cells.length}
-            </span>
-            <span className="text-blue-200 font-bold">マス</span>
-          </div>
-        </div>
       </header>
 
       {/* メインコンテンツ */}

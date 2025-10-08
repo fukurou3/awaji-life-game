@@ -22,7 +22,7 @@ export const DiceResultModal: React.FC<DiceResultModalProps> = ({
       />
 
       {/* モーダルコンテンツ */}
-      <div className="relative bg-white rounded-2xl p-8 mx-4 shadow-2xl animate-bounce">
+      <div className="relative bg-white rounded-2xl p-8 mx-4 shadow-2xl">
         <div className="text-center">
           {/* サイコロアイコン */}
           <div className="text-6xl mb-4">🎲</div>

@@ -9,48 +9,55 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
   isOpen,
   onStartGame
 }) => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentGroup, setCurrentGroup] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const storySteps = [
-    "あなたは東京に住む大学生。",
-    "ある日、友達のひとことがきっかけで「淡路島」という名前が頭をよぎります。",
-    "観光地としての淡路島しか知らなかったあなたが、",
-    "ふとした興味から、島の人や暮らしとつながっていく——。",
-    "",
-    "このゲームでは、あなたがサイコロを振りながら、",
-    "淡路島との\"出会い\"と\"関わり\"を体験します。",
-    "",
-    "途中で訪れる選択——",
-    "「淡路島に移住する」か、「東京から関係を続ける」か。",
-    "どちらの道も、あなたなりの\"つながり方\"を描く旅です。",
-    "",
-    "さあ、サイコロを振って、",
-    "あなたと淡路島の物語をはじめましょう。 🎲",
-    "",
-    "最後に、\"あなたの関係人口スコア\"が発表されます。",
-    "準備はいいですか？"
+  // 5つのグループに分けたストーリー
+  const storyGroups = [
+    [
+      "あなたは東京に住む大学生。",
+      "ある日、友達のひとことがきっかけで「淡路島」という名前が頭をよぎります。",
+      "観光地としての淡路島しか知らなかったあなたが、",
+      "ふとした興味から、島の人や暮らしとつながっていく——。"
+    ],
+    [
+      "このゲームでは、あなたがサイコロを振りながら、",
+      "淡路島との\"出会い\"と\"関わり\"を体験します。"
+    ],
+    [
+      "途中で訪れる選択——",
+      "「淡路島に移住する」か、「東京から関係を続ける」か。",
+      "どちらの道も、あなたなりの\"つながり方\"を描く旅です。"
+    ],
+    [
+      "さあ、サイコロを振って、",
+      "あなたと淡路島の物語をはじめましょう。 🎲"
+    ],
+    [
+      "最後に、\"あなたの関係人口スコア\"が発表されます。",
+      "準備はいいですか？"
+    ]
   ];
 
   useEffect(() => {
     if (!isOpen) {
-      setCurrentStep(0);
+      setCurrentGroup(0);
       return;
     }
 
     const timer = setInterval(() => {
-      setCurrentStep(prev => {
-        if (prev < storySteps.length - 1) {
+      setCurrentGroup(prev => {
+        if (prev < storyGroups.length - 1) {
           return prev + 1;
         } else {
           clearInterval(timer);
           return prev;
         }
       });
-    }, 800); // 0.8秒間隔で次のステップ
+    }, 2000); // 2秒間隔で次のグループ
 
     return () => clearInterval(timer);
-  }, [isOpen, storySteps.length]);
+  }, [isOpen, storyGroups.length]);
 
   if (!isOpen) return null;
 
@@ -63,32 +70,23 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* 人生ゲーム風のポップな背景 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-blue-300 to-yellow-300">
-        {/* キラキラ効果 */}
-        <div className="absolute inset-0 opacity-40">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute text-2xl animate-bounce"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${1 + Math.random() * 2}s`
-              }}
-            >
-              {['✨', '🌟', '💫', '⭐', '🎯', '🏝️'][Math.floor(Math.random() * 6)]}
-            </div>
-          ))}
-        </div>
-        {/* 追加の装飾パターン */}
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.3)_1px,transparent_1px)] bg-[length:50px_50px]"></div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+      {/* 淡路島風景の背景画像 */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url('/haikei.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        {/* 背景を少し暗くしてコンテンツを読みやすくする */}
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
       {/* メインコンテンツ */}
-      <div className={`relative w-full max-w-lg mx-4 transition-transform duration-300 ${
+      <div className={`relative w-full max-w-lg mx-auto my-auto transition-transform duration-300 ${
         isAnimating ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
       }`}>
         {/* 人生ゲーム風のポップなウィンドウ */}
@@ -137,32 +135,35 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
             </div>
 
             {/* ストーリーテキスト */}
-            <div className="min-h-[300px] flex flex-col justify-center">
-              <div className="space-y-3 text-sm leading-relaxed text-gray-800">
-                {storySteps.slice(0, currentStep + 1).map((text, index) => (
+            <div className="min-h-[200px] flex flex-col justify-center">
+              <div className="space-y-6">
+                {storyGroups.slice(0, currentGroup + 1).map((group, groupIndex) => (
                   <div
-                    key={index}
-                    className={`transform transition-all duration-500 ${
-                      index === currentStep
+                    key={groupIndex}
+                    className={`transform transition-all duration-1000 ${
+                      groupIndex === currentGroup
                         ? 'opacity-100 translate-y-0'
-                        : 'opacity-80'
+                        : 'opacity-70'
                     }`}
                     style={{
-                      animationDelay: `${index * 0.1}s`
+                      transform: groupIndex === currentGroup ? 'translateY(0)' : 'translateY(20px)',
+                      transition: 'all 1s ease-out'
                     }}
                   >
-                    {text === "" ? (
-                      <div className="h-2"></div>
-                    ) : (
-                      <p className="text-center font-medium">{text}</p>
-                    )}
+                    <div className="space-y-2 text-sm leading-relaxed text-gray-800">
+                      {group.map((text, textIndex) => (
+                        <p key={textIndex} className="text-center font-medium">
+                          {text}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
 
               {/* ゲーム開始ボタン - 人生ゲーム風 */}
-              {currentStep >= storySteps.length - 1 && (
-                <div className="mt-8 text-center">
+              {currentGroup >= storyGroups.length - 1 && (
+                <div className="mt-8 text-center animate-fadeIn">
                   <button
                     onClick={handleStartGame}
                     className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-red-400 via-pink-500 to-purple-500 hover:from-red-500 hover:via-pink-600 hover:to-purple-600 text-white font-black text-xl rounded-full shadow-xl transform transition-all duration-200 hover:scale-110 border-4 border-white relative overflow-hidden animate-pulse"
