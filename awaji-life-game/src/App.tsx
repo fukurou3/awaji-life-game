@@ -71,7 +71,7 @@ export default function AwajiLifeGame() {
     <div
       className="min-h-screen w-full text-gray-900 flex flex-col relative"
       style={{
-        backgroundImage: "url('/haikei.png')",
+        backgroundImage: "url('/awaji-life-game/haikei.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'

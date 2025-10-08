@@ -75,7 +75,7 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/haikei.png')",
+          backgroundImage: "url('/awaji-life-game/haikei.png')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
