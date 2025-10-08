@@ -1,1 +1,0 @@
-# awaji-life-game

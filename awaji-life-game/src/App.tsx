@@ -30,7 +30,7 @@ const ROUTE_A: Step[] = [
   { no: "18A", text: "初めての地域イベントで司会を担当！", rp: 3 },
   { no: "19A", text: "一方で、ゴミ出しルールを間違えて叱られる。", rp: -2 },
   { no: "20A", text: "近所の人に謝りに行くと『気にせんでええよ』と笑顔で許してくれた。", rp: 2 },
-  { no: "21A", text: "COFFEE BARNでバイト開始。接客を通して"語り手"になる。", rp: 3 },
+  { no: "21A", text: "COFFEE BARNでバイト開始。接客を通して「語り手」になる。", rp: 3 },
   { no: "22A", text: "弁天堂の社長から『焦らずやりなさい』と声をかけられる。", rp: 1 },
   { no: "23A", text: "休日に学生実習生を案内。『今度は教える立場に…！』", rp: 2 },
   { no: "24A", text: "市役所の若手職員と連携し、新しい企画を立ち上げる。", rp: 3 },
@@ -65,7 +65,7 @@ const ROUTE_B: Step[] = [
 function evalEnding(score: number) {
   if (score >= 50) return { title: "🌸 淡路の仲間", desc: "地域の中で信頼される存在。関係人口のロールモデル！" };
   if (score >= 30) return { title: "🌾 淡路の友人", desc: "距離はあっても確かなつながり。継続関与の柱に。" };
-  if (score >= 10) return { title: "🌊 淡路ファン", desc: "来訪体験から一歩踏み出した。次は"語り手"へ！" };
+  if (score >= 10) return { title: "🌊 淡路ファン", desc: "来訪体験から一歩踏み出した。次は「語り手」へ！" };
   return { title: "☁ 観光で終わり", desc: "でも大丈夫。入口はいつでも開かれています。" };
 }
 
