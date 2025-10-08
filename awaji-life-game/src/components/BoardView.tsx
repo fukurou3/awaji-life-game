@@ -21,36 +21,21 @@ export const BoardView: React.FC<BoardViewProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const currentRowRef = useRef<HTMLDivElement>(null);
 
-  // 人生ゲーム風の湾曲レイアウト配置
+  // 人生ゲーム風のS字型湾曲レイアウト配置
   const arrangeCurvedLayout = () => {
-    const layout: { cell: Cell; position: 'left' | 'center' | 'right'; row: number }[] = [];
+    const rows: Cell[][] = [];
 
-    // 右方向に進む行（0, 2, 4, 6, 8行目）
-    const rightRows = [0, 2, 4, 6, 8];
-    // 左方向に進む行（1, 3, 5, 7, 9行目）
-    const leftRows = [1, 3, 5, 7, 9];
+    // 30マスを3列10行に配置（S字型）
+    for (let i = 0; i < cells.length; i += 3) {
+      const row = cells.slice(i, i + 3);
+      const rowIndex = Math.floor(i / 3);
 
-    cells.forEach((cell, index) => {
-      const row = Math.floor(index / 3);
-      const col = index % 3;
-
-      let position: 'left' | 'center' | 'right';
-
-      if (rightRows.includes(row)) {
-        // 右方向の行：左→中央→右
-        position = col === 0 ? 'left' : col === 1 ? 'center' : 'right';
-      } else {
-        // 左方向の行：右→中央→左
-        position = col === 0 ? 'right' : col === 1 ? 'center' : 'left';
+      // 奇数行（1, 3, 5, 7, 9行目）は逆順でS字型を作る
+      if (rowIndex % 2 === 1) {
+        row.reverse();
       }
 
-      layout.push({ cell, position, row });
-    });
-
-    // 行ごとにグループ化
-    const rows: { cell: Cell; position: 'left' | 'center' | 'right' }[][] = [];
-    for (let i = 0; i < 10; i++) {
-      rows.push(layout.filter(item => item.row === i));
+      rows.push(row);
     }
 
     return rows;
@@ -79,9 +64,15 @@ export const BoardView: React.FC<BoardViewProps> = ({
     }
   }, [currentIndex]);
 
-  // セルのインデックスを取得
-  const getCellIndex = (cell: Cell) => {
-    return cells.findIndex(c => c.id === cell.id);
+  // セルのインデックスを取得（S字型配置を考慮）
+  const getCellIndex = (rowIndex: number, colIndex: number) => {
+    if (rowIndex % 2 === 0) {
+      // 偶数行：左から右へ進む
+      return rowIndex * 3 + colIndex;
+    } else {
+      // 奇数行：右から左へ進む（S字型）
+      return rowIndex * 3 + (2 - colIndex);
+    }
   };
 
   return (
@@ -94,16 +85,16 @@ export const BoardView: React.FC<BoardViewProps> = ({
         </p>
       </div>
 
-      {/* 縦スクロール可能なボード（7行表示） */}
+      {/* 縦スクロール可能なボード */}
       <div
         ref={scrollContainerRef}
         className="flex-1 overflow-y-auto px-2"
         style={{
-          maxHeight: 'calc(100vh - 300px)',
+          maxHeight: 'calc(100vh - 250px)',
           scrollbarWidth: 'thin'
         }}
       >
-        <div className="max-w-sm mx-auto pb-4">
+        <div className="max-w-sm mx-auto pb-20">
           {rows.map((row, rowIndex) => (
             <div
               key={rowIndex}
@@ -149,26 +140,15 @@ export const BoardView: React.FC<BoardViewProps> = ({
               )}
 
               <div className="relative px-2">
-                {/* 3つのポジション用の配置 */}
-                <div className="relative h-20 flex items-center">
-                  {row.map((item, colIndex) => {
-                    const actualIndex = getCellIndex(item.cell);
-                    const { cell, position } = item;
-
-                    // ポジションに基づく配置
-                    let positionClass = '';
-                    if (position === 'left') {
-                      positionClass = 'absolute left-0';
-                    } else if (position === 'center') {
-                      positionClass = 'absolute left-1/2 transform -translate-x-1/2';
-                    } else {
-                      positionClass = 'absolute right-0';
-                    }
+                {/* 3列のグリッド配置 */}
+                <div className="grid grid-cols-3 gap-2">
+                  {row.map((cell, colIndex) => {
+                    const actualIndex = getCellIndex(rowIndex, colIndex);
 
                     return (
                       <div
                         key={cell.id}
-                        className={`relative w-16 ${positionClass}`}
+                        className="relative"
                       >
                         <CellCard
                           cell={cell}
@@ -186,7 +166,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
 
                         {/* 横の接続線 */}
                         {colIndex < row.length - 1 && (
-                          <div className="absolute top-1/2 -right-2 w-4 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
+                          <div className="absolute top-1/2 -right-1 w-2 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
                         )}
                       </div>
                     );

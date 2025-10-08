@@ -96,8 +96,8 @@ export default function AwajiLifeGame() {
               />
             </div>
 
-            {/* 操作パネル */}
-            <footer className="bg-white border-t border-gray-200 p-4">
+            {/* 操作パネル - 固定 */}
+            <footer className="sticky bottom-0 z-10 bg-white/95 backdrop-blur border-t border-gray-200 p-4 flex-shrink-0">
               {gameState.phase === 'branch' ? (
                 // 分岐選択
                 <BranchPicker
