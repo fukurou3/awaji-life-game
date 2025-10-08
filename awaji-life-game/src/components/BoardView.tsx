@@ -21,24 +21,42 @@ export const BoardView: React.FC<BoardViewProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const currentRowRef = useRef<HTMLDivElement>(null);
 
-  // S字型レイアウト用のセル配置（3列×10行）
-  const arrangeInSnakePattern = () => {
-    const rows: Cell[][] = [];
-    const cols = 3;
+  // 人生ゲーム風の湾曲レイアウト配置
+  const arrangeCurvedLayout = () => {
+    const layout: { cell: Cell; position: 'left' | 'center' | 'right'; row: number }[] = [];
 
-    for (let i = 0; i < cells.length; i += cols) {
-      const row = cells.slice(i, i + cols);
-      // 偶数行は逆順（S字型にするため）
-      if (Math.floor(i / cols) % 2 === 1) {
-        row.reverse();
+    // 右方向に進む行（0, 2, 4, 6, 8行目）
+    const rightRows = [0, 2, 4, 6, 8];
+    // 左方向に進む行（1, 3, 5, 7, 9行目）
+    const leftRows = [1, 3, 5, 7, 9];
+
+    cells.forEach((cell, index) => {
+      const row = Math.floor(index / 3);
+      const col = index % 3;
+
+      let position: 'left' | 'center' | 'right';
+
+      if (rightRows.includes(row)) {
+        // 右方向の行：左→中央→右
+        position = col === 0 ? 'left' : col === 1 ? 'center' : 'right';
+      } else {
+        // 左方向の行：右→中央→左
+        position = col === 0 ? 'right' : col === 1 ? 'center' : 'left';
       }
-      rows.push(row);
+
+      layout.push({ cell, position, row });
+    });
+
+    // 行ごとにグループ化
+    const rows: { cell: Cell; position: 'left' | 'center' | 'right' }[][] = [];
+    for (let i = 0; i < 10; i++) {
+      rows.push(layout.filter(item => item.row === i));
     }
 
     return rows;
   };
 
-  const rows = arrangeInSnakePattern();
+  const rows = arrangeCurvedLayout();
   const currentRow = Math.floor(currentIndex / 3);
 
   // 現在の行が表示範囲に入るように自動スクロール
@@ -61,15 +79,9 @@ export const BoardView: React.FC<BoardViewProps> = ({
     }
   }, [currentIndex]);
 
-  // 現在のセルがどの行のどの位置にあるか判定
-  const getCellIndex = (rowIndex: number, colIndex: number) => {
-    if (rowIndex % 2 === 0) {
-      // 偶数行：左から右
-      return rowIndex * 3 + colIndex;
-    } else {
-      // 奇数行：右から左（S字型）
-      return rowIndex * 3 + (2 - colIndex);
-    }
+  // セルのインデックスを取得
+  const getCellIndex = (cell: Cell) => {
+    return cells.findIndex(c => c.id === cell.id);
   };
 
   return (
@@ -96,53 +108,90 @@ export const BoardView: React.FC<BoardViewProps> = ({
             <div
               key={rowIndex}
               ref={rowIndex === currentRow ? currentRowRef : undefined}
-              className="relative mb-2"
+              className="relative mb-4"
             >
-              {/* 行番号表示（デバッグ用、必要なら削除） */}
-              {/* <div className="absolute -left-8 top-1/2 -translate-y-1/2 text-xs text-gray-400">
-                {rowIndex + 1}
-              </div> */}
-
-              {/* S字型の接続線 */}
+              {/* 湾曲接続線 */}
               {rowIndex < rows.length - 1 && (
-                <div className="absolute bottom-0 left-0 right-0 h-2 flex justify-center">
-                  <div className={`w-0.5 h-full bg-gray-300 ${
-                    rowIndex % 2 === 0 ? 'ml-auto mr-[16.67%]' : 'mr-auto ml-[16.67%]'
-                  }`} />
+                <div className="absolute bottom-0 left-0 right-0 h-4 flex justify-center">
+                  {/* 右から左への湾曲線 */}
+                  {rowIndex % 2 === 0 ? (
+                    <svg
+                      className="absolute bottom-0"
+                      width="100%"
+                      height="16"
+                      viewBox="0 0 300 16"
+                      style={{ left: 0 }}
+                    >
+                      <path
+                        d="M 250 0 Q 275 8 275 16"
+                        stroke="#d1d5db"
+                        strokeWidth="2"
+                        fill="none"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="absolute bottom-0"
+                      width="100%"
+                      height="16"
+                      viewBox="0 0 300 16"
+                      style={{ left: 0 }}
+                    >
+                      <path
+                        d="M 25 0 Q 0 8 0 16"
+                        stroke="#d1d5db"
+                        strokeWidth="2"
+                        fill="none"
+                      />
+                    </svg>
+                  )}
                 </div>
               )}
 
-              <div className="grid grid-cols-3 gap-2">
-                {row.map((cell, colIndex) => {
-                  const actualIndex = getCellIndex(rowIndex, colIndex);
-                  if (!cell) return <div key={colIndex} className="w-full aspect-square" />;
+              <div className="relative px-2">
+                {/* 3つのポジション用の配置 */}
+                <div className="relative h-20 flex items-center">
+                  {row.map((item, colIndex) => {
+                    const actualIndex = getCellIndex(item.cell);
+                    const { cell, position } = item;
 
-                  return (
-                    <div
-                      key={cell.id}
-                      className="relative"
-                    >
-                      <CellCard
-                        cell={cell}
-                        isCurrentPosition={actualIndex === currentIndex}
-                        isVisited={visitedIndices.includes(actualIndex)}
-                      />
+                    // ポジションに基づく配置
+                    let positionClass = '';
+                    if (position === 'left') {
+                      positionClass = 'absolute left-0';
+                    } else if (position === 'center') {
+                      positionClass = 'absolute left-1/2 transform -translate-x-1/2';
+                    } else {
+                      positionClass = 'absolute right-0';
+                    }
 
-                      {/* 現在位置マーカー */}
-                      {actualIndex === currentIndex && (
-                        <CurrentMarker
-                          isVisible={true}
-                          isMoving={isMoving}
+                    return (
+                      <div
+                        key={cell.id}
+                        className={`relative w-16 ${positionClass}`}
+                      >
+                        <CellCard
+                          cell={cell}
+                          isCurrentPosition={actualIndex === currentIndex}
+                          isVisited={visitedIndices.includes(actualIndex)}
                         />
-                      )}
 
-                      {/* 横の接続線（S字型） */}
-                      {colIndex < row.length - 1 && row[colIndex + 1] && (
-                        <div className="absolute top-1/2 -right-1 w-2 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
-                      )}
-                    </div>
-                  );
-                })}
+                        {/* 現在位置マーカー */}
+                        {actualIndex === currentIndex && (
+                          <CurrentMarker
+                            isVisible={true}
+                            isMoving={isMoving}
+                          />
+                        )}
+
+                        {/* 横の接続線 */}
+                        {colIndex < row.length - 1 && (
+                          <div className="absolute top-1/2 -right-2 w-4 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           ))}
