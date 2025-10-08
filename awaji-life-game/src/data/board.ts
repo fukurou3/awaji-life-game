@@ -38,7 +38,7 @@ export const createTokyoCells = (storyMap: Record<string, string>): Cell[] => {
       route: 'tokyo',
       title: `マス${cellNumber}B`,
       shortText: storyMap[key]
-        ? storyMap[key].slice(0, 20) + '...'
+        ? storyMap[key].replace(/^\d+[AB]?\s*/, '').slice(0, 25) + (storyMap[key].replace(/^\d+[AB]?\s*/, '').length > 25 ? '...' : '')
         : `東京${i + 1}`,
       icon: getTokyoIconForIndex(i),
       effect: {
