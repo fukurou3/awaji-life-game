@@ -8,7 +8,7 @@ function parseStory(raw: string): StoryMap {
   for (const line of lines) {
     const s = line.trim();
     if (!s) continue;
-    const m = s.match(/^\s*(?:No\.?\s*)?(\d{1,2})([AB])?\s*[：:.-、．]*\s*(.+)$/);
+    const m = s.match(/^\s*(?:No\.?\s*)?(\d{1,2})([AB])?\s+(.+)$/);
     if (m) {
       const key = `${m[1]}${m[2] ?? ""}`;
       const text = m[3].trim();

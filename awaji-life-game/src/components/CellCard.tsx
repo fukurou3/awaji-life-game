@@ -24,14 +24,14 @@ export const CellCard: React.FC<CellCardProps> = ({
       className={`
         relative w-full aspect-square rounded-2xl border-2 p-3 flex flex-col items-center justify-center text-sm transition-all duration-300 shadow-soft cursor-pointer hover:shadow-lg
         ${isCurrentPosition
-          ? 'border-warm-orange bg-gradient-to-br from-warm-cream via-soft-peach to-warm-pink shadow-warm scale-105 ring-2 ring-warm-orange/50 z-10'
+          ? 'border-orange-400 bg-white/80 shadow-warm scale-105 ring-2 ring-orange-400/50 z-10'
           : cell.meta?.isBranch
-          ? 'border-soft-lavender bg-gradient-to-br from-soft-lavender/70 via-warm-cream to-soft-mint/70'
+          ? 'border-purple-300 bg-white/70'
           : cell.meta?.isGoal
-          ? 'border-soft-gold bg-gradient-to-br from-soft-gold/70 via-warm-cream to-soft-rose/70'
+          ? 'border-yellow-400 bg-white/70'
           : isVisited
-          ? 'border-soft-sage bg-gradient-to-br from-soft-sage/70 via-warm-cream to-soft-sky/70'
-          : 'border-warm-gray bg-gradient-to-br from-warm-cream via-soft-ivory to-warm-white'
+          ? 'border-green-300 bg-white/70'
+          : 'border-gray-300 bg-white/60'
         }
         ${className}
       `}

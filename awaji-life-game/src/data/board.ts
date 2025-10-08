@@ -64,7 +64,7 @@ export const createIjuuCells = (storyMap: Record<string, string>): Cell[] => {
       route: 'ijuu',
       title: `マス${cellNumber}A`,
       shortText: storyMap[key]
-        ? storyMap[key].slice(0, 20) + '...'
+        ? storyMap[key].replace(/^\d+[AB]?\s*/, '').slice(0, 25) + (storyMap[key].replace(/^\d+[AB]?\s*/, '').length > 25 ? '...' : '')
         : `移住${i + 1}`,
       icon: getIjuuIconForIndex(i),
       effect: {

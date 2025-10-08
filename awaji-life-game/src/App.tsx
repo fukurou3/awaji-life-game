@@ -82,25 +82,20 @@ export default function AwajiLifeGame() {
       {/* オーバーレイで少し暗くして文字を読みやすくする */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-200/40 via-purple-100/40 to-pink-200/40 pointer-events-none"></div>
       {/* ヘッダー */}
-      <header className="sticky top-0 z-20 bg-gradient-to-r from-pink-400 via-red-500 to-yellow-500 shadow-lg px-4 py-3 relative">
-        {/* メインタイトル - 人生ゲーム風 */}
-        <div className="text-center mb-2">
-          <h1 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg transform hover:scale-105 transition-transform duration-200">
-            <span className="inline-block bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+      <header className="sticky top-0 z-20 bg-white shadow-lg px-4 py-3 relative">
+        {/* メインタイトル */}
+        <div className="text-center">
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-800">
+            <span className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
               淡路
             </span>
-            <span className="inline-block bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] mx-1">
+            <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mx-1">
               人生
             </span>
-            <span className="inline-block bg-gradient-to-r from-green-300 to-teal-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+            <span className="inline-block bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">
               ゲーム
             </span>
           </h1>
-          <div className="flex items-center justify-center gap-1 mt-1">
-            <span className="text-white text-xs font-bold bg-red-500 px-2 py-1 rounded-full shadow-md">🎯</span>
-            <p className="text-white text-sm font-bold drop-shadow-md">淡路島とつながる人生ゲーム ～関係人口を育む旅～</p>
-            <span className="text-white text-xs font-bold bg-blue-500 px-2 py-1 rounded-full shadow-md">🏝️</span>
-          </div>
         </div>
 
       </header>
@@ -151,15 +146,6 @@ export default function AwajiLifeGame() {
                 />
               )}
 
-              {/* リセットボタン */}
-              {gameState.phase === 'idle' && gameState.history.length > 0 && (
-                <button
-                  onClick={actions.resetGame}
-                  className="w-full mt-3 py-2 px-4 rounded-lg border border-gray-300 text-gray-700 text-sm hover:bg-gray-50 transition-colors"
-                >
-                  ゲームをリセット
-                </button>
-              )}
             </footer>
           </>
         )}
