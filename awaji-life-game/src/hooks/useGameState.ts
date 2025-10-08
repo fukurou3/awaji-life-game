@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { GameState, GamePhase, Cell, HistoryItem } from '../types/game';
 import { createBoard, createBoardWithRoute } from '../data/board';
 import { evaluateRP } from '../data/evaluator';
@@ -23,6 +23,16 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
   }));
 
   const moveTimeoutRef = useRef<number | null>(null);
+
+  // storyMapが変更されたときにボードを更新
+  useEffect(() => {
+    setGameState(prev => ({
+      ...prev,
+      board: prev.route === 'none'
+        ? createBoard(storyMap)
+        : createBoardWithRoute(storyMap, prev.route)
+    }));
+  }, [storyMap]);
 
   // サイコロを振る
   const rollDice = useCallback(() => {

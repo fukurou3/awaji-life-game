@@ -23,26 +23,16 @@ export const BoardView: React.FC<BoardViewProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const currentRowRef = useRef<HTMLDivElement>(null);
 
-  // 3-1-3-1... のS字配置をベースに、末尾の余り(2/1)にも破綻しないよう行を構築
+  // 一行に2個のマス配置
   const arrangeFoldLayout = () => {
     const rows: Cell[][] = [];
     let i = 0;
 
     while (i < cells.length) {
-      const rowType = rows.length % 4; // 0:3(LTR), 1:1(R), 2:3(RTL), 3:1(L)
-
-      if (rowType === 0 || rowType === 2) {
-        // 3マス行（末尾不足なら2マスにも対応）
-        const row = cells.slice(i, i + 3);
-        if (rowType === 2) row.reverse();
-        rows.push(row);
-        i += row.length; // 残りが2/1でも破綻しない
-      } else {
-        // 1マス行
-        const row = cells.slice(i, i + 1);
-        rows.push(row);
-        i += row.length;
-      }
+      // 一行に2個ずつ配置
+      const row = cells.slice(i, i + 2);
+      rows.push(row);
+      i += row.length;
     }
 
     return rows;
@@ -79,14 +69,11 @@ export const BoardView: React.FC<BoardViewProps> = ({
   // セル -> 元の直線 index を取得
   const getCellIndex = (cell: Cell) => cells.findIndex((c) => c.id === cell.id);
 
-  // 行を常に3カラムのスロットに変換。1/2マス行はプレースホルダーで幅を揃え、S字の左右端に寄せる
-  // rowIndex % 4: 0→LTR(3列), 1→右端(1列), 2→RTL(3列), 3→左端(1列)
-  const buildSlotsForRow = (row: Cell[], rowIndex: number): (Cell | null)[] => {
-    const slots: (Cell | null)[] = [null, null, null];
-    const isLTR = rowIndex % 4 === 0 || rowIndex % 4 === 3;
-    const startCol = isLTR ? 0 : 3 - row.length; // RTLは右寄せ
-    for (let i = 0; i < row.length && startCol + i < 3; i++) {
-      slots[startCol + i] = row[i];
+  // 行を2カラムのスロットに変換
+  const buildSlotsForRow = (row: Cell[]): (Cell | null)[] => {
+    const slots: (Cell | null)[] = [null, null];
+    for (let i = 0; i < row.length && i < 2; i++) {
+      slots[i] = row[i];
     }
     return slots;
   };
@@ -100,7 +87,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
         className="flex-1 overflow-y-auto px-2"
         style={{ maxHeight: 'calc(100vh - 250px)', scrollbarWidth: 'thin' }}
       >
-        <div className="max-w-sm mx-auto pb-40">
+        <div className="max-w-lg mx-auto pb-40">
           {rows.map((row, rowIndex) => (
             <div
               key={rowIndex}
@@ -123,9 +110,9 @@ export const BoardView: React.FC<BoardViewProps> = ({
               )}
 
               <div className="relative px-2">
-                {/* 3カラム固定。1/2マス行はプレースホルダーで揃える */}
-                <div className="grid grid-cols-3 gap-2">
-                  {buildSlotsForRow(row, rowIndex).map((slotCell, slotIndex, slots) => {
+                {/* 2カラム固定 */}
+                <div className="grid grid-cols-2 gap-4">
+                  {buildSlotsForRow(row).map((slotCell, slotIndex, slots) => {
                     if (!slotCell) {
                       return (
                         <div
@@ -162,21 +149,6 @@ export const BoardView: React.FC<BoardViewProps> = ({
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* 進行状況バー */}
-      <div className="mt-4 px-4">
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div
-            className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transition-all duration-500"
-            style={{ width: `${Math.min(((currentIndex + 1) / cells.length) * 100, 100)}%` }}
-          />
-        </div>
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
-          <span>スタート</span>
-          <span>{Math.round(((currentIndex + 1) / cells.length) * 100)}%</span>
-          <span>ゴール</span>
         </div>
       </div>
 

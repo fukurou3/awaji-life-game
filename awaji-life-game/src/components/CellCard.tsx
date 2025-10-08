@@ -90,33 +90,6 @@ export const CellCard: React.FC<CellCardProps> = ({
           {cell.shortText}
         </span>
       </div>
-
-      {/* 特別なマーカー - やわらかなデザイン */}
-      {cell.meta?.isBranch && (
-        <div
-          className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-white text-[6px] px-2 py-1 rounded-full font-medium"
-          style={{
-            background: 'linear-gradient(135deg, #F0B27A 0%, #F4D03F 100%)',
-            boxShadow: '0 2px 6px rgba(240, 178, 122, 0.3)',
-            border: '1px solid #FFF8F0'
-          }}
-        >
-          🔀 分岐
-        </div>
-      )}
-
-      {cell.meta?.isGoal && (
-        <div
-          className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-white text-[6px] px-2 py-1 rounded-full font-medium"
-          style={{
-            background: 'linear-gradient(135deg, #BB8FCE 0%, #D7BDE2 100%)',
-            boxShadow: '0 2px 6px rgba(187, 143, 206, 0.3)',
-            border: '1px solid #FFF8F0'
-          }}
-        >
-          🏁 ゴール
-        </div>
-      )}
     </div>
   );
 };
