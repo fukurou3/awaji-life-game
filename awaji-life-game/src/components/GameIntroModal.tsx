@@ -89,23 +89,11 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
       <div className={`relative w-full max-w-lg mx-auto my-auto transition-transform duration-300 ${
         isAnimating ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
       }`}>
-        {/* 人生ゲーム風のポップなウィンドウ */}
-        <div className="bg-gradient-to-br from-white via-pink-50 to-yellow-50 border-4 border-rainbow rounded-2xl shadow-2xl relative overflow-hidden"
-             style={{
-               borderImage: 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3) 1'
-             }}>
-          {/* ウィンドウの装飾 - 人生ゲーム風 */}
-          <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400"></div>
-          <div className="absolute top-1 left-1 right-1 h-4 bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200 rounded-sm"></div>
-
-          {/* 角の装飾 */}
-          <div className="absolute top-2 left-2 w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-2 right-2 w-4 h-4 bg-pink-400 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-2 left-2 w-4 h-4 bg-blue-400 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
+        {/* シンプルな半透明白ウィンドウ */}
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg relative overflow-hidden border border-white/20">
 
           {/* コンテンツエリア */}
-          <div className="pt-8 pb-6 px-6">
+          <div className="p-6">
             {/* タイトル - 人生ゲーム風 */}
             <div className="text-center mb-6">
               <h1 className="text-3xl sm:text-4xl font-black mb-3">
@@ -122,7 +110,7 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
               <div className="flex items-center justify-center gap-2 mb-2">
                 <span className="text-yellow-500 text-xl">🎯</span>
                 <div className="text-lg font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
-                  〜30の選択で関係人口になろう〜
+                  淡路島とつながる人生ゲーム ～関係人口を育む旅～
                 </div>
                 <span className="text-blue-500 text-xl">🏝️</span>
               </div>
@@ -136,50 +124,43 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
 
             {/* ストーリーテキスト */}
             <div className="min-h-[200px] flex flex-col justify-center">
-              <div className="space-y-6">
-                {storyGroups.slice(0, currentGroup + 1).map((group, groupIndex) => (
-                  <div
-                    key={groupIndex}
-                    className={`transform transition-all duration-1000 ${
-                      groupIndex === currentGroup
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-70'
-                    }`}
-                    style={{
-                      transform: groupIndex === currentGroup ? 'translateY(0)' : 'translateY(20px)',
-                      transition: 'all 1s ease-out'
-                    }}
-                  >
-                    <div className="space-y-2 text-sm leading-relaxed text-gray-800">
-                      {group.map((text, textIndex) => (
-                        <p key={textIndex} className="text-center font-medium">
-                          {text}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+              <div
+                key={currentGroup}
+                className="space-y-2 text-sm leading-relaxed text-gray-800"
+                style={{
+                  animation: 'slideUp 0.8s ease-out'
+                }}
+              >
+                {storyGroups[currentGroup].map((text, textIndex) => (
+                  <p key={textIndex} className="text-center font-medium">
+                    {text}
+                  </p>
                 ))}
               </div>
 
-              {/* ゲーム開始ボタン - 人生ゲーム風 */}
+              <style>{`
+                @keyframes slideUp {
+                  from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                  }
+                  to {
+                    opacity: 1;
+                    transform: translateY(0);
+                  }
+                }
+              `}</style>
+
+              {/* ゲーム開始ボタン - 落ち着いたデザイン */}
               {currentGroup >= storyGroups.length - 1 && (
-                <div className="mt-8 text-center animate-fadeIn">
+                <div className="mt-8 text-center">
                   <button
                     onClick={handleStartGame}
-                    className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-red-400 via-pink-500 to-purple-500 hover:from-red-500 hover:via-pink-600 hover:to-purple-600 text-white font-black text-xl rounded-full shadow-xl transform transition-all duration-200 hover:scale-110 border-4 border-white relative overflow-hidden animate-pulse"
+                    className="inline-flex items-center gap-2 px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium text-lg rounded-lg shadow-md transition-all duration-200 hover:shadow-lg"
                   >
-                    {/* ボタン内のキラキラ効果 */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-ping"></div>
-                    <span className="text-2xl">🎲</span>
-                    <span className="relative z-10">▶ ゲームをはじめる</span>
-                    <span className="text-2xl">🏝️</span>
+                    <span>▶</span>
+                    <span>ゲームをはじめる</span>
                   </button>
-                  {/* ボタン周りの装飾 */}
-                  <div className="flex justify-center gap-2 mt-3">
-                    <span className="text-2xl animate-bounce animation-delay-0">✨</span>
-                    <span className="text-2xl animate-bounce animation-delay-100">🌟</span>
-                    <span className="text-2xl animate-bounce animation-delay-200">💫</span>
-                  </div>
                 </div>
               )}
             </div>
