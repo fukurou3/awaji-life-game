@@ -68,18 +68,45 @@ export default function AwajiLifeGame() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 text-gray-900 flex flex-col">
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-200 via-purple-100 to-pink-200 text-gray-900 flex flex-col">
       {/* ヘッダー */}
-      <header className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-gray-200 px-4 py-3">
-        <h1 className="text-xl font-bold text-center">淡路人生ゲーム</h1>
-        <p className="text-xs text-gray-600 text-center">30の選択で関係人口になろう</p>
+      <header className="sticky top-0 z-10 bg-gradient-to-r from-pink-400 via-red-500 to-yellow-500 shadow-lg px-4 py-3">
+        {/* メインタイトル - 人生ゲーム風 */}
+        <div className="text-center mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg transform hover:scale-105 transition-transform duration-200">
+            <span className="inline-block bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+              淡路
+            </span>
+            <span className="inline-block bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] mx-1">
+              人生
+            </span>
+            <span className="inline-block bg-gradient-to-r from-green-300 to-teal-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+              ゲーム
+            </span>
+          </h1>
+          <div className="flex items-center justify-center gap-1 mt-1">
+            <span className="text-white text-xs font-bold bg-red-500 px-2 py-1 rounded-full shadow-md">🎯</span>
+            <p className="text-white text-sm font-bold drop-shadow-md">30の選択で関係人口になろう</p>
+            <span className="text-white text-xs font-bold bg-blue-500 px-2 py-1 rounded-full shadow-md">🏝️</span>
+          </div>
+        </div>
 
-        {/* 進行状況 */}
-        <div className="mt-2 flex items-center justify-between text-sm">
-          <span className="text-gray-600">RP: {gameState.rp}</span>
-          <span className="text-gray-600">
-            {gameState.currentIndex + 1} / {gameState.board.cells.length} マス
-          </span>
+        {/* 進行状況 - ポップなデザイン */}
+        <div className="flex items-center justify-between text-sm bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+          <div className="flex items-center gap-2">
+            <span className="text-yellow-200 font-bold">💰</span>
+            <span className="text-white font-bold">RP: </span>
+            <span className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full font-black text-xs">
+              {gameState.rp}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-green-200 font-bold">🏁</span>
+            <span className="text-white font-bold">
+              {gameState.currentIndex + 1} / {gameState.board.cells.length}
+            </span>
+            <span className="text-blue-200 font-bold">マス</span>
+          </div>
         </div>
       </header>
 
