@@ -19,9 +19,9 @@ export const CellCard: React.FC<CellCardProps> = ({
   return (
     <div
       className={`
-        relative min-w-[80px] w-20 h-20 rounded-lg border-2 p-2 flex flex-col items-center justify-between text-xs transition-all duration-200
+        relative w-full aspect-square rounded-md border-2 p-1 flex flex-col items-center justify-between text-xs transition-all duration-200
         ${isCurrentPosition
-          ? 'border-emerald-500 bg-emerald-100 shadow-lg scale-110 ring-2 ring-emerald-300'
+          ? 'border-emerald-500 bg-emerald-100 shadow-lg scale-105 ring-2 ring-emerald-300 z-10'
           : cell.meta?.isBranch
           ? 'border-orange-400 bg-orange-50'
           : cell.meta?.isGoal
@@ -34,17 +34,17 @@ export const CellCard: React.FC<CellCardProps> = ({
       `}
     >
       {/* アイコン */}
-      <div className="text-lg">{cell.icon || '⭐'}</div>
+      <div className="text-sm sm:text-base">{cell.icon || '⭐'}</div>
 
       {/* マス番号 */}
-      <div className="absolute top-0 left-0 w-4 h-4 bg-gray-700 text-white text-[8px] rounded-br flex items-center justify-center">
+      <div className="absolute top-0 left-0 w-3 h-3 sm:w-4 sm:h-4 bg-gray-700 text-white text-[6px] sm:text-[8px] rounded-br flex items-center justify-center">
         {cell.index + 1}
       </div>
 
       {/* RP変動 */}
       {rpDelta !== 0 && (
         <div
-          className={`absolute top-0 right-0 w-5 h-4 text-[8px] rounded-bl flex items-center justify-center font-bold ${
+          className={`absolute top-0 right-0 w-4 h-3 sm:w-5 sm:h-4 text-[6px] sm:text-[8px] rounded-bl flex items-center justify-center font-bold ${
             rpDelta > 0
               ? 'bg-green-500 text-white'
               : 'bg-red-500 text-white'
@@ -54,8 +54,8 @@ export const CellCard: React.FC<CellCardProps> = ({
         </div>
       )}
 
-      {/* 短文 */}
-      <div className="text-center text-[8px] leading-tight overflow-hidden line-clamp-2">
+      {/* 短文 - 表示を復活（S字レイアウトでは必要） */}
+      <div className="text-center text-[6px] sm:text-[8px] leading-tight overflow-hidden line-clamp-2 px-1">
         {cell.shortText}
       </div>
 

@@ -86,12 +86,13 @@ export default function AwajiLifeGame() {
           // ゲーム画面
           <>
             {/* ボード表示 */}
-            <div className="flex-1 p-4">
+            <div className="flex-1 overflow-hidden">
               <BoardView
                 cells={gameState.board.cells}
                 currentIndex={gameState.currentIndex}
                 visitedIndices={visitedIndices}
                 isMoving={gameState.phase === 'moving'}
+                className="h-full"
               />
             </div>
 
