@@ -63,19 +63,42 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
     }));
   }, []);
 
-  // サイコロ結果モーダルを閉じて移動開始
-  const closeDiceResult = useCallback(() => {
-    const roll = gameState.dice.lastRoll;
-    if (!roll) return;
+  // 停止モーダルを開く
+  const openStopModal = useCallback(() => {
+    setGameState(prev => {
+      const currentCell = prev.board.cells[prev.currentIndex];
+      if (!currentCell) return prev;
 
-    setGameState(prev => ({
-      ...prev,
-      phase: 'moving'
-    }));
+      // RP適用
+      const rpDelta = currentCell.effect.rpDelta || 0;
+      const newRP = prev.rp + rpDelta;
 
-    // 移動開始
-    startMovement(roll);
-  }, [gameState.dice.lastRoll]);
+      const historyItem: HistoryItem = {
+        index: prev.currentIndex,
+        rpDelta,
+        timestamp: Date.now()
+      };
+
+      // ゴール判定
+      if (currentCell.meta?.isGoal) {
+        const result = evaluateRP(newRP);
+        return {
+          ...prev,
+          rp: newRP,
+          history: [...prev.history, historyItem],
+          result,
+          phase: 'result' as const
+        };
+      }
+
+      return {
+        ...prev,
+        rp: newRP,
+        history: [...prev.history, historyItem],
+        phase: 'modal' as const
+      };
+    });
+  }, []);
 
   // 移動処理
   const startMovement = useCallback((steps: number) => {
@@ -125,7 +148,21 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
     };
 
     moveStep();
-  }, []);
+  }, [openStopModal]);
+
+  // サイコロ結果モーダルを閉じて移動開始
+  const closeDiceResult = useCallback(() => {
+    const roll = gameState.dice.lastRoll;
+    if (!roll) return;
+
+    setGameState(prev => ({
+      ...prev,
+      phase: 'moving'
+    }));
+
+    // 移動開始
+    startMovement(roll);
+  }, [gameState.dice.lastRoll, startMovement]);
 
   // 分岐選択
   const selectBranch = useCallback((selectedRoute: 'tokyo' | 'ijuu') => {
@@ -144,40 +181,7 @@ export function useGameState({ storyMap }: UseGameStateOptions) {
     } else {
       openStopModal();
     }
-  }, [gameState.remainingSteps, storyMap]);
-
-  // 停止モーダルを開く
-  const openStopModal = useCallback(() => {
-    const currentCell = gameState.board.cells[gameState.currentIndex];
-    if (!currentCell) return;
-
-    // RP適用
-    const rpDelta = currentCell.effect.rpDelta || 0;
-    const newRP = gameState.rp + rpDelta;
-
-    const historyItem: HistoryItem = {
-      index: gameState.currentIndex,
-      rpDelta,
-      timestamp: Date.now()
-    };
-
-    setGameState(prev => ({
-      ...prev,
-      rp: newRP,
-      history: [...prev.history, historyItem],
-      phase: 'modal'
-    }));
-
-    // ゴール判定
-    if (currentCell.meta?.isGoal) {
-      const result = evaluateRP(newRP);
-      setGameState(prev => ({
-        ...prev,
-        result,
-        phase: 'result'
-      }));
-    }
-  }, [gameState.board.cells, gameState.currentIndex, gameState.rp, gameState.history]);
+  }, [gameState.remainingSteps, storyMap, startMovement, openStopModal]);
 
   // モーダルを閉じる
   const closeModal = useCallback(() => {
