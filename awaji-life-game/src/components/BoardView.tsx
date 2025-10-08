@@ -94,19 +94,9 @@ export const BoardView: React.FC<BoardViewProps> = ({
               ref={rowIndex === currentRow ? currentRowRef : undefined}
               className="relative mb-4"
             >
-              {/* 行間の湾曲接続（簡易） */}
+              {/* 行間の接続線（垂直） */}
               {rowIndex < rows.length - 1 && (
-                <div className="absolute bottom-0 left-0 right-0 h-4 flex justify-center">
-                  {rowIndex % 2 === 0 ? (
-                    <svg className="absolute bottom-0" width="100%" height="16" viewBox="0 0 300 16">
-                      <path d="M 250 0 Q 275 8 275 16" stroke="#d1d5db" strokeWidth="2" fill="none" />
-                    </svg>
-                  ) : (
-                    <svg className="absolute bottom-0" width="100%" height="16" viewBox="0 0 300 16">
-                      <path d="M 25 0 Q 0 8 0 16" stroke="#d1d5db" strokeWidth="2" fill="none" />
-                    </svg>
-                  )}
-                </div>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-gray-300"></div>
               )}
 
               <div className="relative px-2">
@@ -139,8 +129,8 @@ export const BoardView: React.FC<BoardViewProps> = ({
                         )}
 
                         {/* 同一行の隣接セル間のみ水平接続線 */}
-                        {slotIndex < 2 && slots[slotIndex + 1] && (
-                          <div className="absolute top-1/2 -right-1 w-2 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
+                        {slotIndex < 1 && slots[slotIndex + 1] && (
+                          <div className="absolute top-1/2 -right-2 w-4 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0" />
                         )}
                       </div>
                     );

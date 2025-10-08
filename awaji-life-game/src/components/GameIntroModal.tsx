@@ -44,20 +44,7 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
       setCurrentGroup(0);
       return;
     }
-
-    const timer = setInterval(() => {
-      setCurrentGroup(prev => {
-        if (prev < storyGroups.length - 1) {
-          return prev + 1;
-        } else {
-          clearInterval(timer);
-          return prev;
-        }
-      });
-    }, 2000); // 2秒間隔で次のグループ
-
-    return () => clearInterval(timer);
-  }, [isOpen, storyGroups.length]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -67,6 +54,12 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
       onStartGame();
       setIsAnimating(false);
     }, 300);
+  };
+
+  const handleNextGroup = () => {
+    if (currentGroup < storyGroups.length - 1) {
+      setCurrentGroup(prev => prev + 1);
+    }
   };
 
   return (
@@ -123,7 +116,12 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
             </div>
 
             {/* ストーリーテキスト */}
-            <div className="min-h-[200px] flex flex-col justify-center">
+            <div
+              className={`min-h-[200px] flex flex-col justify-center ${
+                currentGroup < storyGroups.length - 1 ? 'cursor-pointer' : ''
+              }`}
+              onClick={handleNextGroup}
+            >
               <div
                 key={currentGroup}
                 className="space-y-2 text-sm leading-relaxed text-gray-800"
@@ -137,6 +135,13 @@ export const GameIntroModal: React.FC<GameIntroModalProps> = ({
                   </p>
                 ))}
               </div>
+
+              {/* タップで次へのヒント */}
+              {currentGroup < storyGroups.length - 1 && (
+                <div className="mt-4 text-center text-xs text-gray-500 animate-pulse">
+                  タップして続きを読む →
+                </div>
+              )}
 
               <style>{`
                 @keyframes slideUp {

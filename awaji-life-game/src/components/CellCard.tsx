@@ -22,7 +22,7 @@ export const CellCard: React.FC<CellCardProps> = ({
     <div
       onClick={onClick}
       className={`
-        relative w-full aspect-square rounded-2xl border-2 p-3 flex flex-col items-center justify-center text-sm transition-all duration-300 shadow-soft cursor-pointer hover:shadow-lg
+        relative w-full aspect-square rounded-2xl border-2 p-4 flex flex-col items-center justify-center text-base transition-all duration-300 shadow-soft cursor-pointer hover:shadow-lg
         ${isCurrentPosition
           ? 'border-orange-400 bg-white/80 shadow-warm scale-105 ring-2 ring-orange-400/50 z-10'
           : cell.meta?.isBranch
@@ -56,7 +56,7 @@ export const CellCard: React.FC<CellCardProps> = ({
     >
       {/* マス番号 - やわらかなデザイン */}
       <div
-        className="absolute -top-1 -left-1 w-6 h-6 text-white text-xs rounded-full flex items-center justify-center font-semibold"
+        className="absolute -top-1 -left-1 w-8 h-8 text-white text-sm rounded-full flex items-center justify-center font-semibold"
         style={{
           background: 'linear-gradient(135deg, #D4A574 0%, #E8C4A0 100%)',
           boxShadow: '0 2px 8px rgba(212, 165, 116, 0.3)',
@@ -69,7 +69,7 @@ export const CellCard: React.FC<CellCardProps> = ({
       {/* RP変動 - やわらかなデザイン */}
       {rpDelta !== 0 && (
         <div
-          className="absolute -top-1 -right-1 w-7 h-6 text-xs rounded-full flex items-center justify-center font-semibold text-white"
+          className="absolute -top-1 -right-1 w-8 h-7 text-sm rounded-full flex items-center justify-center font-semibold text-white"
           style={{
             background: rpDelta > 0
               ? 'linear-gradient(135deg, #A8C8A8 0%, #C0D8C0 100%)'
@@ -85,8 +85,8 @@ export const CellCard: React.FC<CellCardProps> = ({
       )}
 
       {/* 短文 - より大きなフォントで全文表示 */}
-      <div className="text-center text-sm sm:text-base leading-snug px-0.5 font-medium flex-1 flex items-center justify-center">
-        <span className="line-clamp-4">
+      <div className="text-center text-base sm:text-lg leading-snug px-1 font-medium flex-1 flex items-center justify-center">
+        <span className="line-clamp-5">
           {cell.shortText}
         </span>
       </div>
