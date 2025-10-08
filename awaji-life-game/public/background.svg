@@ -1,0 +1,92 @@
+<svg width="896" height="1152" viewBox="0 0 896 1152" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky background -->
+  <rect width="896" height="1152" fill="url(#skyGradient)"/>
+
+  <!-- Clouds -->
+  <ellipse cx="150" cy="100" rx="80" ry="40" fill="#C5D9E5" opacity="0.8"/>
+  <ellipse cx="120" cy="90" rx="60" ry="30" fill="#C5D9E5" opacity="0.8"/>
+  <ellipse cx="180" cy="95" rx="70" ry="35" fill="#C5D9E5" opacity="0.8"/>
+
+  <ellipse cx="750" cy="120" rx="90" ry="45" fill="#C5D9E5" opacity="0.8"/>
+  <ellipse cx="720" cy="110" rx="70" ry="35" fill="#C5D9E5" opacity="0.8"/>
+  <ellipse cx="780" cy="115" rx="80" ry="40" fill="#C5D9E5" opacity="0.8"/>
+
+  <!-- Mountains -->
+  <path d="M0 300 Q150 250 300 320 Q450 280 600 350 Q750 300 896 380 L896 600 L0 600 Z" fill="#A8BFA8" opacity="0.6"/>
+  <path d="M0 500 Q200 450 400 520 Q600 480 896 550 L896 700 L0 700 Z" fill="#B8C5A8" opacity="0.7"/>
+
+  <!-- Bridge -->
+  <g transform="translate(100, 300)">
+    <!-- Bridge towers -->
+    <rect x="150" y="100" width="8" height="120" fill="#7FB3D3"/>
+    <rect x="550" y="100" width="8" height="120" fill="#7FB3D3"/>
+
+    <!-- Horizontal bridge elements -->
+    <rect x="150" y="180" width="408" height="4" fill="#7FB3D3"/>
+    <rect x="150" y="200" width="408" height="4" fill="#7FB3D3"/>
+
+    <!-- Main cables -->
+    <path d="M154 120 Q356 160 558 120" stroke="#7FB3D3" stroke-width="3" fill="none"/>
+    <path d="M154 130 Q356 170 558 130" stroke="#7FB3D3" stroke-width="3" fill="none"/>
+
+    <!-- Vertical cables -->
+    <line x1="200" y1="135" x2="200" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="250" y1="145" x2="250" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="300" y1="150" x2="300" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="350" y1="155" x2="350" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="400" y1="155" x2="400" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="450" y1="150" x2="450" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="500" y1="145" x2="500" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+    <line x1="512" y1="135" x2="512" y2="180" stroke="#7FB3D3" stroke-width="1"/>
+
+    <!-- Tower cross braces -->
+    <path d="M146 120 L162 140 M162 120 L146 140" stroke="#7FB3D3" stroke-width="2"/>
+    <path d="M146 160 L162 180 M162 160 L146 180" stroke="#7FB3D3" stroke-width="2"/>
+    <path d="M550 120 L566 140 M566 120 L550 140" stroke="#7FB3D3" stroke-width="2"/>
+    <path d="M550 160 L566 180 M566 160 L550 180" stroke="#7FB3D3" stroke-width="2"/>
+  </g>
+
+  <!-- Water -->
+  <rect x="0" y="600" width="896" height="552" fill="url(#waterGradient)"/>
+
+  <!-- Water waves -->
+  <path d="M0 650 Q224 640 448 650 Q672 660 896 650 L896 670 Q672 680 448 670 Q224 660 0 670 Z" fill="#A0BFD1" opacity="0.6"/>
+  <path d="M0 700 Q224 690 448 700 Q672 710 896 700 L896 720 Q672 730 448 720 Q224 710 0 720 Z" fill="#A0BFD1" opacity="0.4"/>
+  <path d="M0 750 Q224 740 448 750 Q672 760 896 750 L896 770 Q672 780 448 770 Q224 760 0 770 Z" fill="#A0BFD1" opacity="0.3"/>
+
+  <!-- Boat -->
+  <g transform="translate(750, 650)">
+    <path d="M0 20 Q20 10 40 20 L35 30 L5 30 Z" fill="#5A8DB3"/>
+    <polygon points="20,30 20,5 25,5 30,15 20,30" fill="#F5E6D3"/>
+  </g>
+
+  <!-- Onion (Awaji symbol) -->
+  <g transform="translate(750, 900)">
+    <ellipse cx="0" cy="20" rx="50" ry="60" fill="#E6B885"/>
+    <path d="M-30 -20 Q0 -40 30 -20 Q20 -5 0 0 Q-20 -5 -30 -20" fill="#E6B885"/>
+    <line x1="0" y1="-30" x2="0" y2="40" stroke="#D4A573" stroke-width="2"/>
+    <line x1="-15" y1="-15" x2="-15" y2="35" stroke="#D4A573" stroke-width="1"/>
+    <line x1="15" y1="-15" x2="15" y2="35" stroke="#D4A573" stroke-width="1"/>
+    <line x1="-30" y1="0" x2="-30" y2="50" stroke="#D4A573" stroke-width="1"/>
+    <line x1="30" y1="0" x2="30" y2="50" stroke="#D4A573" stroke-width="1"/>
+  </g>
+
+  <!-- Whirlpool -->
+  <g transform="translate(200, 800)">
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#7FB3D3" stroke-width="2" opacity="0.4"/>
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#7FB3D3" stroke-width="2" opacity="0.5"/>
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#7FB3D3" stroke-width="2" opacity="0.6"/>
+    <path d="M-60 0 Q-30 -30 0 0 Q30 30 60 0" stroke="#7FB3D3" stroke-width="2" fill="none" opacity="0.3"/>
+  </g>
+
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5E6D3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E6D4C1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#A8C8D8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8BB3C8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

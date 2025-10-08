@@ -49,12 +49,12 @@ export default function AwajiLifeGame() {
                       gameState.result.grade === 'B' ? '🌊' : '☁️';
 
     const routeName = gameState.route === 'tokyo' ? '東京ルート' : '移住ルート';
-    const message = `【淡路人生ゲーム】結果: ${gradeEmoji} ランク${gameState.result.grade} / RP ${gameState.rp}\n選択: ${routeName}\n#淡路島 #関係人口`;
+    const message = `【ゲーム】結果: ${gradeEmoji} ランク${gameState.result.grade} / RP ${gameState.rp}\n選択: ${routeName}\n#淡路島 #関係人口`;
 
     try {
       if (navigator.share) {
         await navigator.share({
-          title: '淡路人生ゲーム結果',
+          title: 'ゲーム結果',
           text: message,
           url: window.location.href
         });
@@ -68,9 +68,19 @@ export default function AwajiLifeGame() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-200 via-purple-100 to-pink-200 text-gray-900 flex flex-col">
+    <div
+      className="min-h-screen w-full text-gray-900 flex flex-col relative"
+      style={{
+        backgroundImage: "url('/awaji-life-game/background.svg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* オーバーレイで少し暗くして文字を読みやすくする */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-200/40 via-purple-100/40 to-pink-200/40 pointer-events-none"></div>
       {/* ヘッダー */}
-      <header className="sticky top-0 z-10 bg-gradient-to-r from-pink-400 via-red-500 to-yellow-500 shadow-lg px-4 py-3">
+      <header className="sticky top-0 z-20 bg-gradient-to-r from-pink-400 via-red-500 to-yellow-500 shadow-lg px-4 py-3 relative">
         {/* メインタイトル - 人生ゲーム風 */}
         <div className="text-center mb-2">
           <h1 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg transform hover:scale-105 transition-transform duration-200">
@@ -111,7 +121,7 @@ export default function AwajiLifeGame() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col relative z-10">
         {gameState.phase === 'result' && gameState.result ? (
           // 結果画面
           <div className="flex-1 p-4 flex items-center justify-center">
@@ -138,7 +148,7 @@ export default function AwajiLifeGame() {
             </div>
 
             {/* 操作パネル - 固定 */}
-            <footer className="sticky bottom-0 z-10 bg-white/95 backdrop-blur border-t border-gray-200 p-4 flex-shrink-0">
+            <footer className="sticky bottom-0 z-20 bg-white/95 backdrop-blur border-t border-gray-200 p-4 flex-shrink-0">
               {gameState.phase === 'branch' ? (
                 // 分岐選択
                 <BranchPicker
