@@ -66,7 +66,7 @@ export const CellCard: React.FC<CellCardProps> = ({
         {cell.index + 1}
       </div>
 
-      {/* RP変動 - やわらかなデザイン */}
+      {/* 好感度変動 - やわらかなデザイン */}
       {rpDelta !== 0 && (
         <div
           className="absolute -top-2 -right-2 w-7 h-6 text-xs rounded-full flex items-center justify-center font-semibold text-white"

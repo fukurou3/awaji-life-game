@@ -51,7 +51,7 @@ export default function AwajiLifeGame() {
                       gameState.result.grade === 'B' ? '🌊' : '☁️';
 
     const routeName = gameState.route === 'tokyo' ? '東京ルート' : '移住ルート';
-    const message = `【ゲーム】結果: ${gradeEmoji} ランク${gameState.result.grade} / RP ${gameState.rp}\n選択: ${routeName}\n#淡路島 #関係人口`;
+    const message = `【ゲーム】結果: ${gradeEmoji} ランク${gameState.result.grade} / 好感度 ${gameState.rp}\n選択: ${routeName}\n#淡路島 #関係人口`;
 
     try {
       if (navigator.share) {

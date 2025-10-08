@@ -66,10 +66,10 @@ export const StopModal: React.FC<StopModalProps> = ({
             <p className="text-base leading-relaxed">{storyText}</p>
           </div>
 
-          {/* RP変動 */}
+          {/* 好感度変動 */}
           <div className="mb-4 p-3 rounded-lg bg-gray-50">
             <div className="flex items-center justify-between">
-              <span className="font-semibold">RP変動</span>
+              <span className="font-semibold">好感度変動</span>
               <span
                 className={`font-bold text-lg ${
                   rpDelta > 0
@@ -83,7 +83,7 @@ export const StopModal: React.FC<StopModalProps> = ({
               </span>
             </div>
             <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200">
-              <span className="text-sm text-gray-600">合計RP</span>
+              <span className="text-sm text-gray-600">合計好感度</span>
               <span className="font-bold text-emerald-600">{totalRP}</span>
             </div>
           </div>

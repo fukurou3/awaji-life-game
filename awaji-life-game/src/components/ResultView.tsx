@@ -52,7 +52,7 @@ export const ResultView: React.FC<ResultViewProps> = ({
         {/* スコア詳細 - 落ち着いたデザイン */}
         <div className="border-t border-slate-200 pt-4 space-y-3">
           <div className="flex justify-between items-center bg-slate-50 rounded-lg p-3">
-            <span className="font-medium text-slate-700">合計RP</span>
+            <span className="font-medium text-slate-700">合計好感度</span>
             <span className="text-2xl font-bold text-slate-800">{totalRP}</span>
           </div>
 
