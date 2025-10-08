@@ -9,6 +9,7 @@ interface BoardViewProps {
   visitedIndices: number[];
   isMoving: boolean;
   className?: string;
+  onCellClick?: (cell: Cell) => void;
 }
 
 export const BoardView: React.FC<BoardViewProps> = ({
@@ -16,7 +17,8 @@ export const BoardView: React.FC<BoardViewProps> = ({
   currentIndex,
   visitedIndices,
   isMoving,
-  className = ''
+  className = '',
+  onCellClick
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const currentRowRef = useRef<HTMLDivElement>(null);
@@ -141,6 +143,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
                           cell={slotCell}
                           isCurrentPosition={actualIndex === currentIndex}
                           isVisited={visitedIndices.includes(actualIndex)}
+                          onClick={() => onCellClick?.(slotCell)}
                         />
 
                         {/* 現在位置マーカー */}

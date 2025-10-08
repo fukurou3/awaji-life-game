@@ -12,7 +12,9 @@ export const createCommonCells = (storyMap: Record<string, string>): Cell[] => {
     index: i,
     route: 'common',
     title: `マス${i + 1}`,
-    shortText: storyMap[String(i + 1)]?.slice(0, 15) + '...' || `マス${i + 1}`,
+    shortText: storyMap[String(i + 1)]
+      ? storyMap[String(i + 1)].replace(/^\d+\s*/, '').slice(0, 25) + (storyMap[String(i + 1)].replace(/^\d+\s*/, '').length > 25 ? '...' : '')
+      : `マス${i + 1}`,
     icon: getIconForIndex(i),
     effect: {
       rpDelta: rp,
@@ -35,7 +37,9 @@ export const createTokyoCells = (storyMap: Record<string, string>): Cell[] => {
       index: 13 + i,
       route: 'tokyo',
       title: `マス${cellNumber}B`,
-      shortText: storyMap[key]?.slice(0, 15) + '...' || `東京${i + 1}`,
+      shortText: storyMap[key]
+        ? storyMap[key].slice(0, 20) + '...'
+        : `東京${i + 1}`,
       icon: getTokyoIconForIndex(i),
       effect: {
         rpDelta: rp,
@@ -59,7 +63,9 @@ export const createIjuuCells = (storyMap: Record<string, string>): Cell[] => {
       index: 13 + i,
       route: 'ijuu',
       title: `マス${cellNumber}A`,
-      shortText: storyMap[key]?.slice(0, 15) + '...' || `移住${i + 1}`,
+      shortText: storyMap[key]
+        ? storyMap[key].slice(0, 20) + '...'
+        : `移住${i + 1}`,
       icon: getIjuuIconForIndex(i),
       effect: {
         rpDelta: rp,

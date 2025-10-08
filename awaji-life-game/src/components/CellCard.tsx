@@ -6,28 +6,31 @@ interface CellCardProps {
   isCurrentPosition: boolean;
   isVisited: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 export const CellCard: React.FC<CellCardProps> = ({
   cell,
   isCurrentPosition,
   isVisited,
-  className = ''
+  className = '',
+  onClick
 }) => {
   const rpDelta = cell.effect.rpDelta || 0;
 
   return (
     <div
+      onClick={onClick}
       className={`
-        relative w-full aspect-square rounded-2xl border-2 p-3 flex flex-col items-center justify-center text-sm transition-all duration-300 shadow-soft
+        relative w-full aspect-square rounded-2xl border-2 p-3 flex flex-col items-center justify-center text-sm transition-all duration-300 shadow-soft cursor-pointer hover:shadow-lg
         ${isCurrentPosition
           ? 'border-warm-orange bg-gradient-to-br from-warm-cream via-soft-peach to-warm-pink shadow-warm scale-105 ring-2 ring-warm-orange/50 z-10'
           : cell.meta?.isBranch
-          ? 'border-soft-lavender bg-gradient-to-br from-soft-lavender/20 via-warm-cream to-soft-mint/20'
+          ? 'border-soft-lavender bg-gradient-to-br from-soft-lavender/70 via-warm-cream to-soft-mint/70'
           : cell.meta?.isGoal
-          ? 'border-soft-gold bg-gradient-to-br from-soft-gold/20 via-warm-cream to-soft-rose/20'
+          ? 'border-soft-gold bg-gradient-to-br from-soft-gold/70 via-warm-cream to-soft-rose/70'
           : isVisited
-          ? 'border-soft-sage bg-gradient-to-br from-soft-sage/20 via-warm-cream to-soft-sky/20'
+          ? 'border-soft-sage bg-gradient-to-br from-soft-sage/70 via-warm-cream to-soft-sky/70'
           : 'border-warm-gray bg-gradient-to-br from-warm-cream via-soft-ivory to-warm-white'
         }
         ${className}
@@ -51,9 +54,6 @@ export const CellCard: React.FC<CellCardProps> = ({
         '--warm-white': '#FEFCF8'
       } as React.CSSProperties}
     >
-      {/* アイコン */}
-      <div className="text-lg sm:text-xl mb-1">{cell.icon || '⭐'}</div>
-
       {/* マス番号 - やわらかなデザイン */}
       <div
         className="absolute -top-1 -left-1 w-6 h-6 text-white text-xs rounded-full flex items-center justify-center font-semibold"
@@ -84,9 +84,11 @@ export const CellCard: React.FC<CellCardProps> = ({
         </div>
       )}
 
-      {/* 短文 - より大きなフォントで表示 */}
-      <div className="text-center text-xs sm:text-sm leading-tight overflow-hidden line-clamp-3 px-1 font-medium">
-        {cell.shortText}
+      {/* 短文 - より大きなフォントで全文表示 */}
+      <div className="text-center text-sm sm:text-base leading-snug px-0.5 font-medium flex-1 flex items-center justify-center">
+        <span className="line-clamp-4">
+          {cell.shortText}
+        </span>
       </div>
 
       {/* 特別なマーカー - やわらかなデザイン */}

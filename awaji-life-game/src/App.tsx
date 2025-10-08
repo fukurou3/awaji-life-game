@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStoryTexts } from './hooks/useStoryTexts';
 import { useGameState } from './hooks/useGameState';
 import { BoardView } from './components/BoardView';
@@ -8,10 +8,12 @@ import { StopModal } from './components/StopModal';
 import { ResultView } from './components/ResultView';
 import { DiceResultModal } from './components/DiceResultModal';
 import { GameIntroModal } from './components/GameIntroModal';
+import { Cell } from './types/game';
 
 export default function AwajiLifeGame() {
   const { texts, loading } = useStoryTexts();
   const { gameState, actions, computed } = useGameState({ storyMap: texts });
+  const [clickedCell, setClickedCell] = useState<Cell | null>(null);
 
   // ローディング中
   if (loading) {
@@ -96,7 +98,7 @@ export default function AwajiLifeGame() {
           </h1>
           <div className="flex items-center justify-center gap-1 mt-1">
             <span className="text-white text-xs font-bold bg-red-500 px-2 py-1 rounded-full shadow-md">🎯</span>
-            <p className="text-white text-sm font-bold drop-shadow-md">30の選択で関係人口になろう</p>
+            <p className="text-white text-sm font-bold drop-shadow-md">淡路島とつながる人生ゲーム ～関係人口を育む旅～</p>
             <span className="text-white text-xs font-bold bg-blue-500 px-2 py-1 rounded-full shadow-md">🏝️</span>
           </div>
         </div>
@@ -127,6 +129,7 @@ export default function AwajiLifeGame() {
                 visitedIndices={visitedIndices}
                 isMoving={gameState.phase === 'moving'}
                 className="h-full"
+                onCellClick={(cell) => setClickedCell(cell)}
               />
             </div>
 
@@ -183,6 +186,22 @@ export default function AwajiLifeGame() {
             : `${14 + (currentCell.index - 13)}A`
         ] || currentCell.title : ''}
         onClose={actions.closeModal}
+      />
+
+      {/* クリックされたマスのモーダル */}
+      <StopModal
+        isOpen={clickedCell !== null}
+        cell={clickedCell}
+        rpDelta={clickedCell?.effect.rpDelta || 0}
+        totalRP={gameState.rp}
+        storyText={clickedCell ? texts[
+          clickedCell.route === 'common'
+            ? String(clickedCell.index + 1)
+            : clickedCell.route === 'tokyo'
+            ? `${14 + (clickedCell.index - 13)}B`
+            : `${14 + (clickedCell.index - 13)}A`
+        ] || clickedCell.title : ''}
+        onClose={() => setClickedCell(null)}
       />
     </div>
   );
