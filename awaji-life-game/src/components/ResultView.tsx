@@ -73,10 +73,10 @@ export const ResultView: React.FC<ResultViewProps> = ({
       <div className="bg-slate-50 rounded-lg p-4 mb-6 text-sm border border-slate-200">
         <h4 className="font-bold mb-3 text-lg text-slate-800">グレード基準</h4>
         <div className="space-y-2">
-          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌸 ランクS (50以上): 淡路の仲間</div>
-          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌾 ランクA (30-49): 淡路の友人</div>
-          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌊 ランクB (10-29): 淡路ファン</div>
-          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">☁️ ランクC (0-9): 観光で終わり</div>
+          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌸 ランクS (20以上): 淡路の仲間</div>
+          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌾 ランクA (15-19): 淡路の友人</div>
+          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">🌊 ランクB (8-14): 淡路ファン</div>
+          <div className="bg-white rounded-lg px-3 py-2 text-slate-700">☁️ ランクC (0-7): 観光で終わり</div>
         </div>
       </div>
 

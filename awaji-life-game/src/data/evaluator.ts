@@ -1,20 +1,20 @@
 import { Grade, Result } from '../types/game';
 
-// RP評価ロジック（既存実装から抽出）
+// RP評価ロジック（平均好感度13を基準に調整）
 export function evaluateRP(rp: number): Result {
-  if (rp >= 50) {
+  if (rp >= 20) {
     return {
       grade: 'S',
       summary: '地域のキーパーソンとして関係が深い'
     };
   }
-  if (rp >= 30) {
+  if (rp >= 15) {
     return {
       grade: 'A',
       summary: '継続的な関与が見られる'
     };
   }
-  if (rp >= 10) {
+  if (rp >= 8) {
     return {
       grade: 'B',
       summary: '関係づくりの第一歩'
